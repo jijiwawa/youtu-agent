@@ -64,7 +64,7 @@ openspec/
 .DS_Store
 
 # Environment Variables
-.env
+# .env
 
 # Misc
 # temp files
