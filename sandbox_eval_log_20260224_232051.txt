@@ -1,0 +1,7 @@
+=== 沙箱评测日志 ===
+开始时间: 
+结束时间: 
+总时长: 0小时 0分钟 0秒
+沙箱URL: http://localhost:8848
+LLM模型: glm-4-flash
+评测配置: ww_sandbox

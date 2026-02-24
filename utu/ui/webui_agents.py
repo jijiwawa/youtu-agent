@@ -162,6 +162,8 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
         await self.send_event(Event(type="finish"))
 
     async def _handle_query_noexcept(self, query: UserQuery):
+        if query is None:
+            raise ValueError("Query cannot be None")
         if query.query.strip() == "":
             raise ValueError("Query cannot be empty")
 
@@ -335,6 +337,10 @@ class WebSocketHandler(tornado.websocket.WebSocketHandler):
             print(data)
             request = UserRequest(**data)
             if request.type == "query":
+                if request.content is None:
+                    logging.error(f"Query content is None: {message}")
+                    await self._handle_error(f"Invalid query: content cannot be None")
+                    return
                 # put query into queue, let query worker handle it
                 await self.query_queue.put(request.content)
             elif request.type == "answer":

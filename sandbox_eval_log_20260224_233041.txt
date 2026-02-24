@@ -1,0 +1,7 @@
+=== 沙箱评测日志 ===
+开始时间: Tue Feb 24 23:23:17 CST 2026
+结束时间: Tue Feb 24 23:30:41 CST 2026
+总时长: 0小时 7分钟 24秒
+沙箱URL: http://localhost:8848
+LLM模型: glm-4-flash
+评测配置: ww_sandbox
