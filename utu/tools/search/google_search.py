@@ -43,7 +43,7 @@ class GoogleSearch:
     async def search_google(self, query: str) -> dict:
         """Call the serper.dev API and cache the results."""
         params = {"q": query, **self.search_params, "num": 10}  # fetch and cache the results
-        async with aiohttp.ClientSession() as session:
+        async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=False)) as session:
             async with session.post(self.serper_url, headers=self.serper_header, json=params) as response:
                 response.raise_for_status()  # avoid cache error!
                 results = await response.json()

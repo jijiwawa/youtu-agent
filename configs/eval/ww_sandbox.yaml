@@ -9,6 +9,7 @@ data:
   type: "single"
   question_field: "question"
   gt_field: "answer"
+pass_k: 1
 
 # 智能体配置
 agent:
@@ -82,7 +83,13 @@ agent:
               model: ${oc.env:UTU_LLM_MODEL}
               base_url: ${oc.env:UTU_LLM_BASE_URL}
               api_key: ${oc.env:UTU_LLM_API_KEY}
-      max_turns: 50
+        codesnip:
+          name: codesnip
+          mode: builtin
+          activated_tools: null
+          config:
+            server_url: http://localhost:8000
+      max_turns: 5
   workers_info:
     - name: SearchAgent
       desc: information retrieval and data collection.
@@ -91,13 +98,9 @@ agent:
 
 # 沙箱环境配置
 env:
-  name: sandbox
+  name: shell_local  # 使用本地沙箱环境
   config:
-    sandbox_type: "envscale"  # 沙箱实现类型
-    base_url: "${oc.env:SANDBOX_BASE_URL}"  # 沙箱服务URL，从环境变量获取
-    access_token_env: "SANDBOX_ACCESS_TOKEN"  # 访问令牌环境变量
-    run_id_source: "trace_id"  # 会话ID来源
-    timeout: 60  # 请求超时时间
+    workspace_root: null  # 自动创建工作目录
 
 # 并发配置
 concurrency: 50
@@ -112,3 +115,16 @@ judge_model:
   model_params:
     temperature: 0.5
 judge_concurrency: 64
+
+# Phoenix跟踪配置
+tracing:
+  enabled: true
+  type: phoenix
+  endpoint: ${oc.env:PHOENIX_ENDPOINT, http://localhost:6006/v1/traces}
+  project_name: ${oc.env:PHOENIX_PROJECT_NAME, youtu_agent}
+  debug: false
+  tags:
+    - name: "eval_type"
+      value: "webwalker_sandbox"
+    - name: "exp_id"
+      value: ${exp_id}
